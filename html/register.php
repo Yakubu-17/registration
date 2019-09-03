@@ -12,16 +12,16 @@ if (isset($_POST['signup'])) {
     $fname = trim($_POST['fname']);
     $lname = trim($_POST['lname']);
     $oname = trim($_POST['oname']);  
-    $dateOfBirth = trim($_POST['dateOfBirth']);                                     // get posted data and remove whitespace
+    $dateOfBirth = $_POST['dateOfBirth'];                                     // get posted data and remove whitespace
     $email = trim($_POST['email']);
     $contact = trim($_POST['contact']);
     $languages = trim($_POST['languages']);
-    $hallOfResidence = trim($_POST['hallOfResidence']);
+    $hallOfResidence = $_POST['hallOfResidence'];
     $offCampusLocation = trim($_POST['offCampusLocation']);
     $roomNumber = trim($_POST['roomNumber']);
-    $programOfstudy = trim($_POST['programOfStudy']);
+    $programOfStudy = trim($_POST['programOfStudy']);
     $studentID = trim($_POST['studentID']);
-    $committeInterested = trim($_POST['committeInterested']);
+    $committeInterested = $_POST['committeInterested'];
     $whatsappContact = trim($_POST['whatsappContact']);
     $nationality = trim($_POST['nationality']);
     
@@ -42,12 +42,16 @@ if (isset($_POST['signup'])) {
     $count = $result->num_rows;
 
     if ($count == 0) { // if email is not found add user
+       
+        $query ="INSERT INTO users(fname,lname,oname,dateOfBirth,email,contact,languages,hallOfResidence,offCampusLocation,roomNumber,programOfStudy,studentID,committeInterested,whatsappContact,nationality) ";
+        $query .= "VALUES ('$fname', '$lname', '$oname', '$dateOfBirth', '$email', '$contact', '$languages', '$hallOfResidence', '$offCampusLocation', '$roomNumber', '$programOfStudy', '$studentID', '$committeInterested', '$whatsappContact', '$nationality')";
+        $result = mysqli_query($conn, $query);
 
 
-        $stmts = $conn->prepare("INSERT INTO users(fname,lname,oname,dateOfBirth,email,contact,languages,hallOfResidence,offCampusLocation,roomNumber,programOfStudy,studentID,committeInterested,whatsappContact,nationality) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmts->bind_param("sssssssssssssss", $fname, $lname, $oname, $dateOfBirth, $email, $contact, $languages, $hallOfResidence, $offCampusLocation, $roomNumber, $programOfStudy, $studentID, $committeInterested, $whatsappContact, $nationality );
-        $res = $stmts->execute();//get result
-        $stmts->close();
+        //$stmts = $conn->prepare("INSERT INTO users(fname,lname,oname,dateOfBirth,email,contact,languages,hallOfResidence,offCampusLocation,roomNumber,programOfStudy,studentID,committeInterested,whatsappContact,nationality) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        //$stmts->bind_param("sssssssssssssss", $fname, $lname, $oname, $dateOfBirth, $email, $contact, $languages, $hallOfResidence, $offCampusLocation, $roomNumber, $programOfStudy, $studentID, $committeInterested, $whatsappContact, $nationality );
+        //$res = $stmts->execute();//get result
+        //$stmts->close();
 
         $user_id = mysqli_insert_id($conn);
         if ($user_id > 0) {
